@@ -1,0 +1,11 @@
+openapi: 3.0.0
+paths: {}
+info:
+  title: Home Library Service
+  description: Home video, music and book library service
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  schemas: {}

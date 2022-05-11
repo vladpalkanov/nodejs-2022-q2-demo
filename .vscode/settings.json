@@ -1,0 +1,18 @@
+{
+  "jest.autoRun": "off",
+  "jest.jestCommandLine": "npm run test:unit --",
+  "jest.debugCodeLens.showWhenTestStateIn": [],
+  "jest.enableCodeLens": false,
+  "jest.debugMode": true,
+  "eslint.run": "onSave",
+  "eslint.format.enable": true,
+  "eslint.validate": [
+    "javascript",
+    "typescript"
+  ],
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll": true
+  }
+}
