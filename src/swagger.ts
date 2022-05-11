@@ -20,7 +20,7 @@ export function initSwaggerForApp(app: INestApplication): void {
 }
 
 function saveOasYamlDocument(document: any): void {
-  const yamlDocument = yaml.dump(document);
+  const yamlDocument = yaml.dump(document, { skipInvalid: true });
 
   fs.writeFileSync('./oas.yaml', yamlDocument);
 }
