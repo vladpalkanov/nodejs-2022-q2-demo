@@ -1,5 +1,22 @@
 openapi: 3.0.0
-paths: {}
+paths:
+  /users:
+    get:
+      operationId: UsersController_findAll
+      summary: Get all users
+      description: Get all users
+      parameters: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+      tags:
+        - Users
 info:
   title: Home Library Service
   description: Home video, music and book library service
@@ -8,4 +25,14 @@ info:
 tags: []
 servers: []
 components:
-  schemas: {}
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        login:
+          type: string
+      required:
+        - id
+        - login
