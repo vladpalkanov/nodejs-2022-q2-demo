@@ -1,11 +1,13 @@
 import {
   BadRequestException,
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   NotFoundException,
   Post,
   Put,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -26,6 +28,7 @@ export class UsersController {
   private users = new Map<User['id'], User>();
 
   @Get()
+  @UseInterceptors(ClassSerializerInterceptor)
   @ApiTags('Users')
   @ApiOperation({
     summary: 'Get all users',
