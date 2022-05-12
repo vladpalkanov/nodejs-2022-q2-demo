@@ -1,8 +1,17 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Post,
+  Put,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBody,
   ApiCreatedResponse,
+  ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -10,10 +19,11 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import * as crypto from 'crypto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Controller('users')
 export class UsersController {
-  private users: Array<User> = [];
+  private users = new Map<User['id'], User>();
 
   @Get()
   @ApiTags('Users')
@@ -27,7 +37,7 @@ export class UsersController {
     isArray: true,
   })
   async findAll(): Promise<Array<User>> {
-    return this.users;
+    return Array.from(this.users.values());
   }
 
   @Post()
@@ -46,6 +56,31 @@ export class UsersController {
     user.login = createUserDto.login;
     user.password = createUserDto.password;
 
-    this.users.push(user);
+    this.users.set(user.id, user);
+  }
+
+  @Put()
+  @ApiTags('Users')
+  @ApiOperation({
+    summary: "Update a user's password",
+    description: "Updates a user's password by ID",
+  })
+  @ApiBody({ type: UpdatePasswordDto })
+  @ApiNoContentResponse({ description: 'The user has been updated' })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  updatePassword(@Body() updatePasswordDto: UpdatePasswordDto): void {
+    const user = this.users.get(updatePasswordDto.id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (user.password !== updatePasswordDto.oldPassword) {
+      throw new BadRequestException('Old password is not correct');
+    }
+
+    user.password = updatePasswordDto.password;
+
+    this.users.set(user.id, user);
   }
 }
