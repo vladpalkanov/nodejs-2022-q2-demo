@@ -8,6 +8,7 @@ export function initSwaggerForApp(app: INestApplication): void {
     .setTitle('Home Library Service')
     .setDescription('Home video, music and book library service')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

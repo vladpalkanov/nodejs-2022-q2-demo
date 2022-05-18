@@ -1,6 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
   ApiNoContentResponse,
@@ -8,6 +9,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
@@ -20,11 +22,13 @@ export function FindAllUsersApi() {
       summary: 'Get all users',
       description: 'Get all users',
     }),
+    ApiBearerAuth(),
     ApiOkResponse({
       description: 'Successful operation',
       type: User,
       isArray: true,
     }),
+    ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );
 }
 
@@ -35,9 +39,11 @@ export function CreateUserApi() {
       summary: 'Create user',
       description: 'Create a new user',
     }),
+    ApiBearerAuth(),
     ApiBody({ type: CreateUserDto }),
     ApiCreatedResponse({ description: 'The user has been created' }),
     ApiBadRequestResponse({ description: 'Bad request' }),
+    ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );
 }
 
@@ -48,9 +54,11 @@ export function UpdatePasswordApi() {
       summary: "Update a user's password",
       description: "Updates a user's password by ID",
     }),
+    ApiBearerAuth(),
     ApiBody({ type: UpdatePasswordDto }),
     ApiOkResponse({ description: 'The user has been updated' }),
     ApiBadRequestResponse({ description: 'Bad request' }),
+    ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );
 }
 
@@ -61,7 +69,9 @@ export function DeleteUserApi() {
       summary: 'Delete user',
       description: 'Deletes user by ID',
     }),
+    ApiBearerAuth(),
     ApiNoContentResponse({ description: 'The user has been deleted' }),
     ApiNotFoundResponse({ description: 'User not found' }),
+    ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );
 }

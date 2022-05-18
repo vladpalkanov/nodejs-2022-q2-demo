@@ -10,6 +10,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -23,6 +24,7 @@ import {
   UpdatePasswordApi,
 } from './users.swagger';
 import { isPasswordsEqual } from 'src/helpers/is-passwords-equal';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -30,12 +32,14 @@ export class UsersController {
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(JwtAuthGuard)
   @FindAllUsersApi()
   async findAll(): Promise<Array<User>> {
     return this.usersService.findAll();
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @CreateUserApi()
   async create(@Body() createUserDto: CreateUserDto): Promise<void> {
     const user = User.fromObject(createUserDto);
@@ -44,6 +48,7 @@ export class UsersController {
   }
 
   @Put()
+  @UseGuards(JwtAuthGuard)
   @UpdatePasswordApi()
   async updatePassword(
     @Body() updatePasswordDto: UpdatePasswordDto,
@@ -70,6 +75,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   @HttpCode(204)
   @DeleteUserApi()
   async deleteUser(@Param('id') id: string): Promise<void> {
