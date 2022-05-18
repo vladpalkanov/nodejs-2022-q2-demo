@@ -26,10 +26,11 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import * as crypto from 'crypto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
-  private users = new Map<User['id'], User>();
+  constructor(private readonly usersService: UsersService) {}
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -44,7 +45,7 @@ export class UsersController {
     isArray: true,
   })
   async findAll(): Promise<Array<User>> {
-    return Array.from(this.users.values());
+    return this.usersService.findAll();
   }
 
   @Post()
@@ -63,7 +64,7 @@ export class UsersController {
     user.login = createUserDto.login;
     user.password = createUserDto.password;
 
-    this.users.set(user.id, user);
+    this.usersService.create(user);
   }
 
   @Put()
@@ -75,8 +76,10 @@ export class UsersController {
   @ApiBody({ type: UpdatePasswordDto })
   @ApiNoContentResponse({ description: 'The user has been updated' })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  updatePassword(@Body() updatePasswordDto: UpdatePasswordDto): void {
-    const user = this.users.get(updatePasswordDto.id);
+  async updatePassword(
+    @Body() updatePasswordDto: UpdatePasswordDto,
+  ): Promise<void> {
+    const user = await this.usersService.findOne(updatePasswordDto.id);
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -88,7 +91,7 @@ export class UsersController {
 
     user.password = updatePasswordDto.password;
 
-    this.users.set(user.id, user);
+    this.usersService.update(user);
   }
 
   @Delete(':id')
@@ -101,7 +104,7 @@ export class UsersController {
   @ApiNoContentResponse({ description: 'The user has been deleted' })
   @ApiNotFoundResponse({ description: 'User not found' })
   async deleteUserById(@Param('id') id: string): Promise<void> {
-    const wasUserDeleted = this.users.delete(id);
+    const wasUserDeleted = this.usersService.delete(id);
 
     if (!wasUserDeleted) {
       throw new NotFoundException('User not found');
