@@ -49,7 +49,7 @@ export function UpdatePasswordApi() {
       description: "Updates a user's password by ID",
     }),
     ApiBody({ type: UpdatePasswordDto }),
-    ApiNoContentResponse({ description: 'The user has been updated' }),
+    ApiOkResponse({ description: 'The user has been updated' }),
     ApiBadRequestResponse({ description: 'Bad request' }),
   );
 }

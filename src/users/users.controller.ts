@@ -66,7 +66,7 @@ export class UsersController {
   @HttpCode(204)
   @DeleteUserApi()
   async deleteUser(@Param('id') id: string): Promise<void> {
-    const wasUserDeleted = this.usersService.delete(id);
+    const wasUserDeleted = await this.usersService.delete(id);
 
     if (!wasUserDeleted) {
       throw new NotFoundException('User not found');

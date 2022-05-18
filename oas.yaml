@@ -48,8 +48,6 @@ paths:
               $ref: '#/components/schemas/UpdatePasswordDto'
       responses:
         '200':
-          description: ''
-        '204':
           description: The user has been updated
         '400':
           description: Bad request
@@ -91,10 +89,19 @@ components:
           type: string
         password:
           type: string
+        createdAt:
+          type: string
+        updtedAt:
+          type: string
+        version:
+          type: number
       required:
         - id
         - login
         - password
+        - createdAt
+        - updtedAt
+        - version
     CreateUserDto:
       type: object
       properties:
