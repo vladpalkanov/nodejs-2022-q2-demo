@@ -1,6 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
-import { CreateUserDto } from '../dto/create-user.dto';
+import {
+  Exclude,
+  plainToInstance,
+  Transform,
+  TransformFnParams,
+} from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -9,16 +13,12 @@ import {
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
+import { hashPassword } from 'src/helpers/hash-password';
 
 @Entity()
 export class User {
-  static fromDto(dto: CreateUserDto): User {
-    const user = new User();
-
-    user.login = dto.login;
-    user.password = dto.password;
-
-    return user;
+  static fromObject(object: Partial<User>): User {
+    return plainToInstance<User, Partial<User>>(User, object);
   }
 
   @PrimaryGeneratedColumn('uuid')
@@ -32,7 +32,12 @@ export class User {
   @Column()
   @ApiProperty()
   @Exclude({ toPlainOnly: true })
+  @Transform(hashPasswordTransformer, { toClassOnly: true })
   password: string;
+
+  @VersionColumn()
+  @ApiProperty()
+  version: number;
 
   @CreateDateColumn()
   @Exclude({ toPlainOnly: true })
@@ -41,8 +46,8 @@ export class User {
   @UpdateDateColumn()
   @Exclude({ toPlainOnly: true })
   updtedAt: string;
+}
 
-  @VersionColumn()
-  @Exclude({ toPlainOnly: true })
-  version: number;
+function hashPasswordTransformer({ value }: TransformFnParams): string {
+  return hashPassword(value);
 }

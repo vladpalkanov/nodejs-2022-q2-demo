@@ -89,19 +89,19 @@ components:
           type: string
         password:
           type: string
+        version:
+          type: number
         createdAt:
           type: string
         updtedAt:
           type: string
-        version:
-          type: number
       required:
         - id
         - login
         - password
+        - version
         - createdAt
         - updtedAt
-        - version
     CreateUserDto:
       type: object
       properties:

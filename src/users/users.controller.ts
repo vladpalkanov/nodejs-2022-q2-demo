@@ -22,6 +22,7 @@ import {
   FindAllUsersApi,
   UpdatePasswordApi,
 } from './users.swagger';
+import { comparePasswords } from 'src/helpers/compare-passwords';
 
 @Controller('users')
 export class UsersController {
@@ -37,7 +38,7 @@ export class UsersController {
   @Post()
   @CreateUserApi()
   async create(@Body() createUserDto: CreateUserDto): Promise<void> {
-    const user = User.fromDto(createUserDto);
+    const user = User.fromObject(createUserDto);
 
     this.usersService.create(user);
   }
@@ -53,13 +54,19 @@ export class UsersController {
       throw new NotFoundException('User not found');
     }
 
-    if (user.password !== updatePasswordDto.oldPassword) {
+    const arePasswordsEqual = comparePasswords(
+      updatePasswordDto.oldPassword,
+      user.password,
+    );
+
+    if (!arePasswordsEqual) {
       throw new BadRequestException('Old password is not correct');
     }
 
-    user.password = updatePasswordDto.password;
-
-    this.usersService.update(user);
+    this.usersService.patch(
+      updatePasswordDto.id,
+      User.fromObject({ password: updatePasswordDto.password }),
+    );
   }
 
   @Delete(':id')

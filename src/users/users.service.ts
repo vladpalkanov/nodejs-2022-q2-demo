@@ -28,7 +28,7 @@ export class UsersService {
     return result.affected > 0;
   }
 
-  async update(user: Partial<User>): Promise<void> {
-    await this.userRepository.update(user.id, user);
+  async patch(userId: string, user: Partial<User>): Promise<void> {
+    await this.userRepository.update(userId, user);
   }
 }
