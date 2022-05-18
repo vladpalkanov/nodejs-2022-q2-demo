@@ -3,8 +3,11 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   NotFoundException,
+  Param,
   Post,
   Put,
   UseInterceptors,
@@ -14,6 +17,7 @@ import {
   ApiBody,
   ApiCreatedResponse,
   ApiNoContentResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -85,5 +89,22 @@ export class UsersController {
     user.password = updatePasswordDto.password;
 
     this.users.set(user.id, user);
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  @ApiTags('Users')
+  @ApiOperation({
+    summary: 'Delete user',
+    description: 'Deletes user by ID',
+  })
+  @ApiNoContentResponse({ description: 'The user has been deleted' })
+  @ApiNotFoundResponse({ description: 'User not found' })
+  async deleteUserById(@Param('id') id: string): Promise<void> {
+    const wasUserDeleted = this.users.delete(id);
+
+    if (!wasUserDeleted) {
+      throw new NotFoundException('User not found');
+    }
   }
 }

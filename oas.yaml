@@ -55,6 +55,24 @@ paths:
           description: Bad request
       tags:
         - Users
+  /users/{id}:
+    delete:
+      operationId: UsersController_deleteUserById
+      summary: Delete user
+      description: Deletes user by ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '204':
+          description: The user has been deleted
+        '404':
+          description: User not found
+      tags:
+        - Users
 info:
   title: Home Library Service
   description: Home video, music and book library service
