@@ -57,7 +57,7 @@ paths:
         - Users
   /users/{id}:
     delete:
-      operationId: UsersController_deleteUserById
+      operationId: UsersController_deleteUser
       summary: Delete user
       description: Deletes user by ID
       parameters:
