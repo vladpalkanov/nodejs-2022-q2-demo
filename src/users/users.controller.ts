@@ -22,7 +22,7 @@ import {
   FindAllUsersApi,
   UpdatePasswordApi,
 } from './users.swagger';
-import { comparePasswords } from 'src/helpers/compare-passwords';
+import { isPasswordsEqual } from 'src/helpers/is-passwords-equal';
 
 @Controller('users')
 export class UsersController {
@@ -54,7 +54,7 @@ export class UsersController {
       throw new NotFoundException('User not found');
     }
 
-    const arePasswordsEqual = comparePasswords(
+    const arePasswordsEqual = isPasswordsEqual(
       updatePasswordDto.oldPassword,
       user.password,
     );

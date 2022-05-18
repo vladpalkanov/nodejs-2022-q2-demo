@@ -71,6 +71,35 @@ paths:
           description: User not found
       tags:
         - Users
+  /login:
+    post:
+      operationId: AuthController_login
+      summary: Login
+      description: Logins a user and returns a JWT-token
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialsDto'
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenResponse'
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenResponse'
+        '403':
+          description: Incorrect login or password
+      tags:
+        - Login
 info:
   title: Home Library Service
   description: Home video, music and book library service
@@ -141,3 +170,22 @@ components:
         - id
         - oldPassword
         - password
+    CredentialsDto:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The user's login
+        password:
+          type: string
+          description: The user's password
+      required:
+        - username
+        - password
+    AuthTokenResponse:
+      type: object
+      properties:
+        token:
+          type: string
+      required:
+        - token

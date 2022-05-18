@@ -18,6 +18,10 @@ export class UsersService {
     return this.userRepository.findOneBy({ id });
   }
 
+  findOneByLogin(login: string): Promise<User> {
+    return this.userRepository.findOneBy({ login });
+  }
+
   async create(user: User): Promise<void> {
     await this.userRepository.save(user);
   }
