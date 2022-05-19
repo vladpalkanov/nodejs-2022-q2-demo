@@ -1,0 +1,9 @@
+server:
+  port: 3000
+
+database:
+  sqlite:
+    database: 'db.sqlite'
+
+jwt:
+  secret: 'secret123123'
