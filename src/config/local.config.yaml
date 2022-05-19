@@ -7,3 +7,15 @@ database:
 
 jwt:
   secret: 'secret123123'
+
+logger:
+  level: 'trace'
+  transport:
+    target: 'pino-pretty'
+    options:
+      colorize: true
+      singleLine: false
+      messageFormat: '{msg} {req.method} {req.url} {res.statusCode}'
+      ignore: 'context,pid,hostname,req.id,res,responseTime,req.headers,req.remoteAddress,req.remotePort,req.method,req.url,'
+      translateTime: true
+      levelFirst: true
