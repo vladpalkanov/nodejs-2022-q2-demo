@@ -19,7 +19,7 @@ import { JwtConfig } from 'src/config/config.types';
       useFactory: (configService: ConfigService) => {
         return {
           secret: configService.get<JwtConfig>('jwt').secret,
-          signOptions: { expiresIn: '60s' },
+          signOptions: { expiresIn: '360s' },
         };
       },
       inject: [ConfigService],

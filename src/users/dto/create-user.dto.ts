@@ -11,7 +11,7 @@ export class CreateUserDto {
   @IsString()
   @MinLength(4)
   @MaxLength(20)
-  login: string;
+  readonly login: string;
 
   @ApiProperty({
     description: "The user's password",
@@ -24,5 +24,5 @@ export class CreateUserDto {
   @Matches(WEAK_PASSWORD_PATTERN, {
     message: 'password too weak',
   })
-  password: string;
+  readonly password: string;
 }

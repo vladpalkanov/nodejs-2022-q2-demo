@@ -57,6 +57,7 @@ export function UpdatePasswordApi() {
     ApiBearerAuth(),
     ApiBody({ type: UpdatePasswordDto }),
     ApiOkResponse({ description: 'The user has been updated' }),
+    ApiNotFoundResponse({ description: 'User not found' }),
     ApiBadRequestResponse({ description: 'Bad request' }),
     ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );

@@ -61,6 +61,8 @@ paths:
           description: Bad request
         '401':
           description: Unauthorized
+        '404':
+          description: User not found
       security:
         - bearer: []
       tags:
@@ -116,6 +118,102 @@ paths:
           description: Incorrect login or password
       tags:
         - Login
+  /tracks:
+    get:
+      operationId: TracksController_findAll
+      summary: Get all tracks
+      description: Gets all library tracks list
+      parameters: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Track'
+        '401':
+          description: Unauthorized
+      security:
+        - bearer: []
+      tags:
+        - Tracks
+    post:
+      operationId: TracksController_create
+      summary: Add new track
+      description: Add new track to library
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTrackDto'
+      responses:
+        '201':
+          description: The track has been created
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+      security:
+        - bearer: []
+      tags:
+        - Tracks
+  /tracks/{id}:
+    put:
+      operationId: TracksController_update
+      summary: Update track information
+      description: Update library track information by UUID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTrackDto'
+      responses:
+        '200':
+          description: The track has been updated
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Track not found
+      security:
+        - bearer: []
+      tags:
+        - Tracks
+    delete:
+      operationId: TracksController_delete
+      summary: Delete track
+      description: Deletes track from library by ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '204':
+          description: The track has been deleted
+        '401':
+          description: Unauthorized
+        '404':
+          description: Track not found
+      security:
+        - bearer: []
+      tags:
+        - Tracks
 info:
   title: Home Library Service
   description: Home video, music and book library service
@@ -210,3 +308,59 @@ components:
           type: string
       required:
         - token
+    Track:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        singer:
+          type: string
+        albums:
+          type: array
+          items:
+            type: string
+        duration:
+          type: number
+        version:
+          type: number
+        createdAt:
+          type: string
+        updtedAt:
+          type: string
+      required:
+        - id
+        - name
+        - singer
+        - albums
+        - duration
+        - version
+        - createdAt
+        - updtedAt
+    CreateTrackDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 4
+          maxLength: 20
+        singer:
+          type: string
+          minLength: 4
+          maxLength: 20
+        duration:
+          type: number
+          minimum: 0
+        albums:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - singer
+        - duration
+        - albums
+    UpdateTrackDto:
+      type: object
+      properties: {}

@@ -9,7 +9,7 @@ export class UpdatePasswordDto {
     description: "The user's uuid",
   })
   @IsString()
-  id: string;
+  readonly id: string;
 
   @ApiProperty({
     description: "The user's old password",
@@ -22,7 +22,7 @@ export class UpdatePasswordDto {
   @Matches(WEAK_PASSWORD_PATTERN, {
     message: 'password too weak',
   })
-  oldPassword: string;
+  readonly oldPassword: string;
 
   @ApiProperty({
     description: "The user's new password",
@@ -35,5 +35,5 @@ export class UpdatePasswordDto {
   @Matches(WEAK_PASSWORD_PATTERN, {
     message: 'password too weak',
   })
-  password: string;
+  readonly password: string;
 }
