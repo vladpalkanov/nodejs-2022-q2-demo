@@ -214,6 +214,102 @@ paths:
         - bearer: []
       tags:
         - Tracks
+  /albums:
+    get:
+      operationId: AlbumsController_findAll
+      summary: Get all albums
+      description: Gets all library albums list
+      parameters: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Album'
+        '401':
+          description: Unauthorized
+      security:
+        - bearer: []
+      tags:
+        - Albums
+    post:
+      operationId: AlbumsController_create
+      summary: Add new album
+      description: Add new album to library
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAlbumDto'
+      responses:
+        '201':
+          description: The album has been created
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+      security:
+        - bearer: []
+      tags:
+        - Albums
+  /albums/{id}:
+    put:
+      operationId: AlbumsController_update
+      summary: Update album information
+      description: Update library album information by UUID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAlbumDto'
+      responses:
+        '200':
+          description: The album has been updated
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Album not found
+      security:
+        - bearer: []
+      tags:
+        - Albums
+    delete:
+      operationId: AlbumsController_delete
+      summary: Delete album
+      description: Deletes album from library by ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '204':
+          description: The album has been deleted
+        '401':
+          description: Unauthorized
+        '404':
+          description: Track not found
+      security:
+        - bearer: []
+      tags:
+        - Albums
 info:
   title: Home Library Service
   description: Home video, music and book library service
@@ -362,5 +458,58 @@ components:
         - duration
         - albums
     UpdateTrackDto:
+      type: object
+      properties: {}
+    Album:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        singer:
+          type: string
+        tracks:
+          type: array
+          items:
+            type: string
+        version:
+          type: number
+        createdAt:
+          type: string
+        updtedAt:
+          type: string
+      required:
+        - id
+        - name
+        - singer
+        - tracks
+        - version
+        - createdAt
+        - updtedAt
+    CreateAlbumDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 4
+          maxLength: 20
+        singer:
+          type: string
+          minLength: 4
+          maxLength: 20
+        year:
+          type: number
+          minimum: 0
+        tracks:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - singer
+        - year
+        - tracks
+    UpdateAlbumDto:
       type: object
       properties: {}

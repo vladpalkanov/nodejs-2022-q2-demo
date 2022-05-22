@@ -5,6 +5,7 @@ import { OrmModule } from './orm/orm.module';
 import { ConfigModule } from './config/config.module';
 import { LoggerModule } from './logger/logger.module';
 import { TracksModule } from './tracks/tracks.module';
+import { AlbumsModule } from './albums/albums.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { TracksModule } from './tracks/tracks.module';
     AuthModule,
     LoggerModule,
     TracksModule,
+    AlbumsModule,
   ],
 })
 export class AppModule {}

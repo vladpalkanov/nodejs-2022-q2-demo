@@ -11,67 +11,67 @@ import {
   ApiNotFoundResponse,
   ApiNoContentResponse,
 } from '@nestjs/swagger';
-import { CreateTrackDto } from './dto/create-track.dto';
-import { UpdateTrackDto } from './dto/update-track.dto';
-import { Track } from './entities/track.entity';
+import { CreateAlbumDto } from './dto/create-album.dto';
+import { UpdateAlbumDto } from './dto/update-album.dto';
+import { Album } from './entities/album.entity';
 
-export function FindAllTracksApi() {
+export function FindAllAlbumsApi() {
   return applyDecorators(
-    ApiTags('Tracks'),
+    ApiTags('Albums'),
     ApiOperation({
-      summary: 'Get all tracks',
-      description: 'Gets all library tracks list',
+      summary: 'Get all albums',
+      description: 'Gets all library albums list',
     }),
     ApiBearerAuth(),
     ApiOkResponse({
       description: 'Successful operation',
-      type: Track,
+      type: Album,
       isArray: true,
     }),
     ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );
 }
 
-export function CreateTrackApi() {
+export function CreateAlbumApi() {
   return applyDecorators(
-    ApiTags('Tracks'),
+    ApiTags('Albums'),
     ApiOperation({
-      summary: 'Add new track',
-      description: 'Add new track to library',
+      summary: 'Add new album',
+      description: 'Add new album to library',
     }),
     ApiBearerAuth(),
-    ApiBody({ type: CreateTrackDto }),
-    ApiCreatedResponse({ description: 'The track has been created' }),
+    ApiBody({ type: CreateAlbumDto }),
+    ApiCreatedResponse({ description: 'The album has been created' }),
     ApiBadRequestResponse({ description: 'Bad request' }),
     ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );
 }
 
-export function UpdateTrackApi() {
+export function UpdateAlbumApi() {
   return applyDecorators(
-    ApiTags('Tracks'),
+    ApiTags('Albums'),
     ApiOperation({
-      summary: 'Update track information',
-      description: 'Update library track information by UUID',
+      summary: 'Update album information',
+      description: 'Update library album information by UUID',
     }),
     ApiBearerAuth(),
-    ApiBody({ type: UpdateTrackDto }),
-    ApiOkResponse({ description: 'The track has been updated' }),
-    ApiNotFoundResponse({ description: 'Track not found' }),
+    ApiBody({ type: UpdateAlbumDto }),
+    ApiOkResponse({ description: 'The album has been updated' }),
+    ApiNotFoundResponse({ description: 'Album not found' }),
     ApiBadRequestResponse({ description: 'Bad request' }),
     ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );
 }
 
-export function DeleteTrackApi() {
+export function DeleteAlbumApi() {
   return applyDecorators(
-    ApiTags('Tracks'),
+    ApiTags('Albums'),
     ApiOperation({
-      summary: 'Delete track',
-      description: 'Deletes track from library by ID',
+      summary: 'Delete album',
+      description: 'Deletes album from library by ID',
     }),
     ApiBearerAuth(),
-    ApiNoContentResponse({ description: 'The track has been deleted' }),
+    ApiNoContentResponse({ description: 'The album has been deleted' }),
     ApiNotFoundResponse({ description: 'Track not found' }),
     ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );

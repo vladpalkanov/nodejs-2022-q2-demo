@@ -18,7 +18,7 @@ import { Track } from './entities/track.entity';
 import { TracksService } from './tracks.service';
 import {
   CreateTrackApi,
-  DeleteUserApi,
+  DeleteTrackApi,
   FindAllTracksApi,
   UpdateTrackApi,
 } from './tracks.swagger';
@@ -64,7 +64,7 @@ export class TracksController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  @DeleteUserApi()
+  @DeleteTrackApi()
   async delete(@Param('id') trackId: string): Promise<void> {
     const wasTrackDeleted = await this.tracksService.delete(trackId);
 
