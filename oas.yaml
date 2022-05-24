@@ -413,10 +413,8 @@ components:
           type: string
         singer:
           type: string
-        albums:
-          type: array
-          items:
-            type: string
+        album:
+          $ref: '#/components/schemas/Album'
         duration:
           type: number
         version:
@@ -429,8 +427,38 @@ components:
         - id
         - name
         - singer
-        - albums
+        - album
         - duration
+        - version
+        - createdAt
+        - updtedAt
+    Album:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        singer:
+          type: string
+        tracks:
+          type: array
+          items:
+            required: true
+            type: array
+            items:
+              $ref: '#/components/schemas/Track'
+        version:
+          type: number
+        createdAt:
+          type: string
+        updtedAt:
+          type: string
+      required:
+        - id
+        - name
+        - singer
+        - tracks
         - version
         - createdAt
         - updtedAt
@@ -448,45 +476,16 @@ components:
         duration:
           type: number
           minimum: 0
-        albums:
-          type: array
-          items:
-            type: string
+        albumId:
+          type: string
       required:
         - name
         - singer
         - duration
-        - albums
+        - albumId
     UpdateTrackDto:
       type: object
       properties: {}
-    Album:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        singer:
-          type: string
-        tracks:
-          type: array
-          items:
-            type: string
-        version:
-          type: number
-        createdAt:
-          type: string
-        updtedAt:
-          type: string
-      required:
-        - id
-        - name
-        - singer
-        - tracks
-        - version
-        - createdAt
-        - updtedAt
     CreateAlbumDto:
       type: object
       properties:
@@ -501,7 +500,7 @@ components:
         year:
           type: number
           minimum: 0
-        tracks:
+        trackIds:
           type: array
           items:
             type: string
@@ -509,7 +508,7 @@ components:
         - name
         - singer
         - year
-        - tracks
+        - trackIds
     UpdateAlbumDto:
       type: object
       properties: {}

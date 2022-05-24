@@ -17,9 +17,11 @@ import { JwtConfig } from 'src/config/config.types';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
+        const { secret, expiresIn } = configService.get<JwtConfig>('jwt');
+
         return {
-          secret: configService.get<JwtConfig>('jwt').secret,
-          signOptions: { expiresIn: '360s' },
+          secret,
+          signOptions: { expiresIn },
         };
       },
       inject: [ConfigService],

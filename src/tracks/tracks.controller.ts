@@ -11,6 +11,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { Album } from 'src/albums/entities/album.entity';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
@@ -41,6 +42,8 @@ export class TracksController {
   async create(@Body() createTrackDto: CreateTrackDto): Promise<void> {
     const track = Track.fromObject(createTrackDto);
 
+    track.album = Album.fromObject({ id: createTrackDto.albumId });
+
     this.tracksService.create(track);
   }
 
@@ -58,6 +61,10 @@ export class TracksController {
     }
 
     const trackPatch = Track.fromObject(updateTrackDto);
+
+    if (trackPatch.album !== undefined) {
+      trackPatch.album = Album.fromObject({ id: updateTrackDto.albumId });
+    }
 
     this.tracksService.patch(trackId, trackPatch);
   }

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Track } from 'src/tracks/entities/track.entity';
 import { Repository } from 'typeorm';
 import { Album } from './entities/album.entity';
 
@@ -11,24 +12,24 @@ export class AlbumsService {
   ) {}
 
   findAll(): Promise<Array<Album>> {
-    return this.albumRepository.find();
+    return this.albumRepository.find({ relations: ['tracks'] });
   }
 
   findOneById(id: string): Promise<Album> {
     return this.albumRepository.findOneBy({ id });
   }
 
-  async create(album: Album): Promise<void> {
+  async save(album: Album): Promise<void> {
     await this.albumRepository.save(album);
-  }
-
-  async patch(albumId: string, albumPatch: Partial<Album>): Promise<void> {
-    await this.albumRepository.update(albumId, albumPatch);
   }
 
   async delete(albumId: string): Promise<boolean> {
     const result = await this.albumRepository.delete(albumId);
 
     return result.affected > 0;
+  }
+
+  setTracksToAlbum(album: Album, trackIds: string[]): void {
+    album.tracks = trackIds.map((trackId) => Track.fromObject({ id: trackId }));
   }
 }

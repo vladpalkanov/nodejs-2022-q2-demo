@@ -14,5 +14,14 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
     "source.fixAll": true
-  }
+  },
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "db",
+      "database": "db.sqlite"
+    }
+  ],
+  "sqltools.useNodeRuntime": true
 }

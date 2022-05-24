@@ -14,6 +14,7 @@ export type ServerConfig = {
 
 export type JwtConfig = {
   secret: string;
+  expiresIn: number;
 };
 
 export type LoggerConfig = LoggerOptions;

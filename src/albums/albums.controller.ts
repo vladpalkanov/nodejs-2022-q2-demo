@@ -21,8 +21,8 @@ import {
   UpdateAlbumApi,
   DeleteAlbumApi,
 } from 'src/albums/albums.swagger';
-import { DeleteUserApi } from 'src/users/users.swagger';
 import { AlbumsService } from './albums.service';
+import { Track } from 'src/tracks/entities/track.entity';
 
 @Controller('albums')
 export class AlbumsController {
@@ -42,7 +42,11 @@ export class AlbumsController {
   async create(@Body() createAlbumDto: CreateAlbumDto): Promise<void> {
     const album = Album.fromObject(createAlbumDto);
 
-    this.albumsService.create(album);
+    if (createAlbumDto.trackIds) {
+      this.albumsService.setTracksToAlbum(album, createAlbumDto.trackIds);
+    }
+
+    this.albumsService.save(album);
   }
 
   @Put(':id')
@@ -58,9 +62,13 @@ export class AlbumsController {
       throw new NotFoundException('Track not found');
     }
 
-    const albumPatch = Album.fromObject(updateAlbumDto);
+    Object.assign(album, updateAlbumDto);
 
-    this.albumsService.patch(albumId, albumPatch);
+    if (updateAlbumDto.trackIds) {
+      this.albumsService.setTracksToAlbum(album, updateAlbumDto.trackIds);
+    }
+
+    this.albumsService.save(album);
   }
 
   @Delete(':id')

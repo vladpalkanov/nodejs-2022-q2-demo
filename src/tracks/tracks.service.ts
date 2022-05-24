@@ -11,7 +11,7 @@ export class TracksService {
   ) {}
 
   findAll(): Promise<Array<Track>> {
-    return this.trackRepository.find();
+    return this.trackRepository.find({ relations: ['album'] });
   }
 
   findOneById(id: string): Promise<Track> {

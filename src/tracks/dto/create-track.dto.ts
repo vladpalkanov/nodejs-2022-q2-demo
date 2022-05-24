@@ -4,11 +4,9 @@ import {
   MinLength,
   MaxLength,
   IsNumber,
-  IsArray,
   IsInt,
   Min,
   IsNotEmpty,
-  ArrayNotEmpty,
 } from 'class-validator';
 
 export class CreateTrackDto {
@@ -30,10 +28,8 @@ export class CreateTrackDto {
   @Min(0)
   readonly duration: number;
 
-  @ApiProperty({ type: String, isArray: true })
-  @IsArray()
-  @IsNotEmpty({ each: true })
-  @IsString({ each: true })
-  @ArrayNotEmpty()
-  readonly albums: Array<string>;
+  @ApiProperty({ type: String })
+  @IsNotEmpty()
+  @IsString()
+  readonly albumId: string;
 }

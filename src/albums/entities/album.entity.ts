@@ -1,10 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, plainToInstance } from 'class-transformer';
+import { Track } from 'src/tracks/entities/track.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
+  RelationId,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
@@ -27,12 +32,14 @@ export class Album {
   @ApiProperty()
   singer: string;
 
-  @Column({ type: 'simple-json' })
+  @OneToMany<Track>(() => Track, (track) => track.album, {
+    orphanedRowAction: 'nullify',
+  })
   @ApiProperty({
-    type: String,
+    type: Track,
     isArray: true,
   })
-  tracks: Array<string>;
+  tracks: Array<Track>;
 
   @VersionColumn()
   @ApiProperty()

@@ -8,7 +8,6 @@ import {
   IsInt,
   Min,
   IsNotEmpty,
-  ArrayNotEmpty,
 } from 'class-validator';
 
 export class CreateAlbumDto {
@@ -34,6 +33,5 @@ export class CreateAlbumDto {
   @IsArray()
   @IsNotEmpty({ each: true })
   @IsString({ each: true })
-  @ArrayNotEmpty()
-  readonly tracks: Array<string>;
+  readonly trackIds: Array<string>;
 }
