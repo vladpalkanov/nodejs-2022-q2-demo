@@ -1,15 +1,12 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { Exclude, plainToInstance } from 'class-transformer';
 import { Track } from 'src/tracks/entities/track.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
-  RelationId,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
@@ -32,9 +29,7 @@ export class Album {
   @ApiProperty()
   singer: string;
 
-  @OneToMany<Track>(() => Track, (track) => track.album, {
-    orphanedRowAction: 'nullify',
-  })
+  @OneToMany<Track>(() => Track, (track) => track.album)
   @ApiProperty({
     type: Track,
     isArray: true,
@@ -47,9 +42,11 @@ export class Album {
 
   @CreateDateColumn()
   @Exclude({ toPlainOnly: true })
+  @ApiHideProperty()
   createdAt: string;
 
   @UpdateDateColumn()
+  @ApiHideProperty()
   @Exclude({ toPlainOnly: true })
   updtedAt: string;
 }

@@ -32,6 +32,25 @@ export function FindAllAlbumsApi() {
   );
 }
 
+export function FindOneAlbumByIdApi() {
+  return applyDecorators(
+    ApiTags('Albums'),
+    ApiOperation({
+      summary: 'Get one album by id',
+      description: 'Find one library album by its id',
+    }),
+    ApiBearerAuth(),
+    ApiNotFoundResponse({
+      description: 'Album not found',
+    }),
+    ApiOkResponse({
+      description: 'Successful operation',
+      type: Album,
+    }),
+    ApiUnauthorizedResponse({ description: 'Unauthorized' }),
+  );
+}
+
 export function CreateAlbumApi() {
   return applyDecorators(
     ApiTags('Albums'),

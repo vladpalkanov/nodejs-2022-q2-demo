@@ -20,9 +20,9 @@ import {
   CreateAlbumApi,
   UpdateAlbumApi,
   DeleteAlbumApi,
+  FindOneAlbumByIdApi,
 } from 'src/albums/albums.swagger';
 import { AlbumsService } from './albums.service';
-import { Track } from 'src/tracks/entities/track.entity';
 
 @Controller('albums')
 export class AlbumsController {
@@ -34,6 +34,20 @@ export class AlbumsController {
   @FindAllAlbumsApi()
   async findAll(): Promise<Array<Album>> {
     return this.albumsService.findAll();
+  }
+
+  @Get(':id')
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(JwtAuthGuard)
+  @FindOneAlbumByIdApi()
+  async findOneById(@Param('id') albumId: string): Promise<Album> {
+    const album = await this.albumsService.findOneById(albumId);
+
+    if (!album) {
+      throw new NotFoundException('Album not found');
+    }
+
+    return album;
   }
 
   @Post()

@@ -1,14 +1,12 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { Exclude, plainToInstance } from 'class-transformer';
 import { Album } from 'src/albums/entities/album.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  RelationId,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
@@ -31,9 +29,7 @@ export class Track {
   @ApiProperty()
   singer: string;
 
-  @ManyToOne<Album>(() => Album, (album) => album.tracks, {
-    onDelete: 'SET NULL',
-  })
+  @ManyToOne<Album>(() => Album, (album) => album.tracks)
   @ApiProperty({ type: Album })
   album: Album;
 
@@ -47,9 +43,11 @@ export class Track {
 
   @CreateDateColumn()
   @Exclude({ toPlainOnly: true })
+  @ApiHideProperty()
   createdAt: string;
 
   @UpdateDateColumn()
   @Exclude({ toPlainOnly: true })
+  @ApiHideProperty()
   updtedAt: string;
 }

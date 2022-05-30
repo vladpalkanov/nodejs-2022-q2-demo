@@ -21,6 +21,7 @@ import {
   CreateUserApi,
   DeleteUserApi,
   FindAllUsersApi,
+  FindOneUserByIdApi,
   UpdatePasswordApi,
 } from './users.swagger';
 import { isPasswordsEqual } from 'src/helpers/is-passwords-equal';
@@ -38,6 +39,20 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @Get(':id')
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(JwtAuthGuard)
+  @FindOneUserByIdApi()
+  async findOneById(@Param('id') id: string): Promise<User> {
+    const user = await this.usersService.findOneById(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
+  }
+
   @Post()
   @UseGuards(JwtAuthGuard)
   @CreateUserApi()
@@ -53,7 +68,7 @@ export class UsersController {
   async updatePassword(
     @Body() updatePasswordDto: UpdatePasswordDto,
   ): Promise<void> {
-    const user = await this.usersService.findOne(updatePasswordDto.id);
+    const user = await this.usersService.findOneById(updatePasswordDto.id);
 
     if (!user) {
       throw new NotFoundException('User not found');

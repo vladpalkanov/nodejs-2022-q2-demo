@@ -32,6 +32,25 @@ export function FindAllUsersApi() {
   );
 }
 
+export function FindOneUserByIdApi() {
+  return applyDecorators(
+    ApiTags('Users'),
+    ApiOperation({
+      summary: 'Get one User by id',
+      description: 'Find one User by its id',
+    }),
+    ApiBearerAuth(),
+    ApiNotFoundResponse({
+      description: 'User not found',
+    }),
+    ApiOkResponse({
+      description: 'Successful operation',
+      type: User,
+    }),
+    ApiUnauthorizedResponse({ description: 'Unauthorized' }),
+  );
+}
+
 export function CreateUserApi() {
   return applyDecorators(
     ApiTags('Users'),

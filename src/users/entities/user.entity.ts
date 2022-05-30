@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import {
   Exclude,
   plainToInstance,
@@ -41,10 +41,12 @@ export class User {
 
   @CreateDateColumn()
   @Exclude({ toPlainOnly: true })
+  @ApiHideProperty()
   createdAt: string;
 
   @UpdateDateColumn()
   @Exclude({ toPlainOnly: true })
+  @ApiHideProperty()
   updtedAt: string;
 }
 

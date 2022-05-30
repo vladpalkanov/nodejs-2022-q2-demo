@@ -32,6 +32,25 @@ export function FindAllTracksApi() {
   );
 }
 
+export function FindOneTrackByIdApi() {
+  return applyDecorators(
+    ApiTags('Tracks'),
+    ApiOperation({
+      summary: 'Get one Track by id',
+      description: 'Find one library Track by its id',
+    }),
+    ApiBearerAuth(),
+    ApiNotFoundResponse({
+      description: 'Track not found',
+    }),
+    ApiOkResponse({
+      description: 'Successful operation',
+      type: Track,
+    }),
+    ApiUnauthorizedResponse({ description: 'Unauthorized' }),
+  );
+}
+
 export function CreateTrackApi() {
   return applyDecorators(
     ApiTags('Tracks'),

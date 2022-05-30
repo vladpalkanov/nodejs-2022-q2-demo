@@ -22,6 +22,7 @@ import {
   DeleteTrackApi,
   FindAllTracksApi,
   UpdateTrackApi,
+  FindOneTrackByIdApi,
 } from './tracks.swagger';
 
 @Controller('tracks')
@@ -34,6 +35,20 @@ export class TracksController {
   @FindAllTracksApi()
   async findAll(): Promise<Array<Track>> {
     return this.tracksService.findAll();
+  }
+
+  @Get(':id')
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(JwtAuthGuard)
+  @FindOneTrackByIdApi()
+  async findOneById(@Param('id') trackId: string): Promise<Track> {
+    const track = await this.tracksService.findOneById(trackId);
+
+    if (!track) {
+      throw new NotFoundException('Track not found');
+    }
+
+    return track;
   }
 
   @Post()
