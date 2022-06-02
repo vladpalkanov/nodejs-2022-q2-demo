@@ -16,7 +16,10 @@ export class AlbumsService {
   }
 
   findOneById(id: string): Promise<Album> {
-    return this.albumRepository.findOneBy({ id });
+    return this.albumRepository.findOne({
+      where: { id },
+      relations: ['tracks'],
+    });
   }
 
   async save(album: Album): Promise<void> {

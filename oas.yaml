@@ -388,10 +388,42 @@ paths:
   /albums/{id}/tracks/{trackId}:
     post:
       operationId: AlbumsController_addTrackToAlbum
+      summary: Add track to album
+      description: Add track to album by UUID
       parameters: []
       responses:
         '201':
           description: ''
+        '204':
+          description: The track has been added to album
+        '401':
+          description: Unauthorized
+        '404':
+          description: Track not found | Album not found
+      security:
+        - bearer: []
+      tags:
+        - Albums
+        - Tracks
+    delete:
+      operationId: AlbumsController_removeTrackFromAlbum
+      summary: Remove track from album
+      description: Remove track from album by UUID
+      parameters: []
+      responses:
+        '200':
+          description: ''
+        '204':
+          description: The track has been removed from album
+        '401':
+          description: Unauthorized
+        '404':
+          description: Track not found | Album not found
+      security:
+        - bearer: []
+      tags:
+        - Albums
+        - Tracks
 info:
   title: Home Library Service
   description: Home video, music and book library service

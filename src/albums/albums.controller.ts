@@ -21,7 +21,9 @@ import {
   UpdateAlbumApi,
   DeleteAlbumApi,
   FindOneAlbumByIdApi,
-} from 'src/albums/albums.swagger';
+  AddTrackToAlbumApi,
+  RemoveTrackFromAlbumApi,
+} from './albums.swagger';
 import { AlbumsService } from './albums.service';
 import { TracksService } from 'src/tracks/tracks.service';
 
@@ -102,6 +104,7 @@ export class AlbumsController {
 
   @Post('/:id/tracks/:trackId')
   @UseGuards(JwtAuthGuard)
+  @AddTrackToAlbumApi()
   async addTrackToAlbum(albumId: string, trackId: string): Promise<void> {
     const album = await this.albumsService.findOneById(albumId);
     const track = await this.tracksService.findOneById(trackId);
@@ -115,5 +118,25 @@ export class AlbumsController {
     }
 
     this.albumsService.addTrackToAlbum(album, track);
+  }
+
+  @Delete('/:id/tracks/:trackId')
+  @UseGuards(JwtAuthGuard)
+  @RemoveTrackFromAlbumApi()
+  async removeTrackFromAlbum(albumId: string, trackId: string): Promise<void> {
+    const album = await this.albumsService.findOneById(albumId);
+    const track = await this.tracksService.findOneById(trackId);
+
+    if (!album) {
+      throw new NotFoundException('Album not found');
+    }
+
+    if (!track) {
+      throw new NotFoundException('Track not found');
+    }
+
+    album.tracks = album.tracks.filter((t) => t.id !== track.id);
+
+    this.albumsService.save(album);
   }
 }

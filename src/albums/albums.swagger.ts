@@ -95,3 +95,33 @@ export function DeleteAlbumApi() {
     ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );
 }
+
+export function AddTrackToAlbumApi() {
+  return applyDecorators(
+    ApiTags('Albums', 'Tracks'),
+    ApiOperation({
+      summary: 'Add track to album',
+      description: 'Add track to album by UUID',
+    }),
+    ApiBearerAuth(),
+    ApiNoContentResponse({ description: 'The track has been added to album' }),
+    ApiNotFoundResponse({ description: 'Track not found | Album not found' }),
+    ApiUnauthorizedResponse({ description: 'Unauthorized' }),
+  );
+}
+
+export function RemoveTrackFromAlbumApi() {
+  return applyDecorators(
+    ApiTags('Albums', 'Tracks'),
+    ApiOperation({
+      summary: 'Remove track from album',
+      description: 'Remove track from album by UUID',
+    }),
+    ApiBearerAuth(),
+    ApiNoContentResponse({
+      description: 'The track has been removed from album',
+    }),
+    ApiNotFoundResponse({ description: 'Track not found | Album not found' }),
+    ApiUnauthorizedResponse({ description: 'Unauthorized' }),
+  );
+}
