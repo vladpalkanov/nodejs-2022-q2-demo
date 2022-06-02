@@ -6,6 +6,7 @@ import { ConfigModule } from './config/config.module';
 import { LoggerModule } from './logger/logger.module';
 import { TracksModule } from './tracks/tracks.module';
 import { AlbumsModule } from './albums/albums.module';
+import { FavouritesModule } from './favourites/favourites.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AlbumsModule } from './albums/albums.module';
     LoggerModule,
     TracksModule,
     AlbumsModule,
+    FavouritesModule,
   ],
 })
 export class AppModule {}
