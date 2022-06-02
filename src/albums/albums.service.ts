@@ -32,4 +32,10 @@ export class AlbumsService {
   setTracksToAlbum(album: Album, trackIds: string[]): void {
     album.tracks = trackIds.map((trackId) => Track.fromObject({ id: trackId }));
   }
+
+  async addTrackToAlbum(album: Album, track: Track): Promise<void> {
+    album.tracks.push(track);
+
+    this.save(album);
+  }
 }

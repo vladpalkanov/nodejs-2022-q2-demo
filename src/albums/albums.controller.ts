@@ -23,10 +23,14 @@ import {
   FindOneAlbumByIdApi,
 } from 'src/albums/albums.swagger';
 import { AlbumsService } from './albums.service';
+import { TracksService } from 'src/tracks/tracks.service';
 
 @Controller('albums')
 export class AlbumsController {
-  constructor(private readonly albumsService: AlbumsService) {}
+  constructor(
+    private readonly albumsService: AlbumsService,
+    private readonly tracksService: TracksService,
+  ) {}
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -94,5 +98,22 @@ export class AlbumsController {
     if (!wasAlbumDeleted) {
       throw new NotFoundException('Track not found');
     }
+  }
+
+  @Post('/:id/tracks/:trackId')
+  @UseGuards(JwtAuthGuard)
+  async addTrackToAlbum(albumId: string, trackId: string): Promise<void> {
+    const album = await this.albumsService.findOneById(albumId);
+    const track = await this.tracksService.findOneById(trackId);
+
+    if (!album) {
+      throw new NotFoundException('Album not found');
+    }
+
+    if (!track) {
+      throw new NotFoundException('Track not found');
+    }
+
+    this.albumsService.addTrackToAlbum(album, track);
   }
 }
