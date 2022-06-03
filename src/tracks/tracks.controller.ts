@@ -66,7 +66,7 @@ export class TracksController {
 
     track.album = Album.fromObject({ id: createTrackDto.albumId });
 
-    this.tracksService.create(track);
+    this.tracksService.save(track);
   }
 
   @Put(':id')
@@ -82,13 +82,13 @@ export class TracksController {
       throw new NotFoundException('Track not found');
     }
 
-    const trackPatch = Track.fromObject(updateTrackDto);
+    Object.assign(track, updateTrackDto);
 
-    if (trackPatch.album !== undefined) {
-      trackPatch.album = Album.fromObject({ id: updateTrackDto.albumId });
+    if (updateTrackDto.albumId) {
+      this.tracksService.setAlbumForTrack(track, updateTrackDto.albumId);
     }
 
-    this.tracksService.patch(trackId, trackPatch);
+    this.tracksService.save(track);
   }
 
   @Delete(':id')
@@ -115,7 +115,7 @@ export class TracksController {
       throw new NotFoundException('Track not found');
     }
 
-    await this.favouritesService.addTrackToFavourites(userId, track);
+    await this.favouritesService.addTrackToFavouritesForUser(track, userId);
   }
 
   @Delete('/:id/favs')
@@ -131,6 +131,6 @@ export class TracksController {
       throw new NotFoundException('Track not found');
     }
 
-    await this.favouritesService.removeTrackFromFavourites(userId, track);
+    await this.favouritesService.removeTrackToFavouritesForUser(track, userId);
   }
 }

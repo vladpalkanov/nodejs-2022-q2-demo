@@ -484,6 +484,176 @@ paths:
       tags:
         - Albums
         - Tracks
+  /movies:
+    get:
+      operationId: MoviesController_findAll
+      summary: Get all movies
+      description: Gets all library movies list
+      parameters: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+        '401':
+          description: Unauthorized
+      security:
+        - bearer: []
+      tags:
+        - Movies
+    post:
+      operationId: MoviesController_create
+      summary: Add new Movie
+      description: Add new Movie to library
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMovieDto'
+      responses:
+        '201':
+          description: The Movie has been created
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+      security:
+        - bearer: []
+      tags:
+        - Movies
+  /movies/{id}:
+    get:
+      operationId: MoviesController_findOneById
+      summary: Get one Movie by id
+      description: Find one library Movie by its id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Movie not found
+      security:
+        - bearer: []
+      tags:
+        - Movies
+    put:
+      operationId: MoviesController_update
+      summary: Update Movie information
+      description: Update library Movie information by UUID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMovieDto'
+      responses:
+        '200':
+          description: The Movie has been updated
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Movie not found
+      security:
+        - bearer: []
+      tags:
+        - Movies
+    delete:
+      operationId: MoviesController_delete
+      summary: Delete Movie
+      description: Deletes Movie from library by ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '204':
+          description: The Movie has been deleted
+        '401':
+          description: Unauthorized
+        '404':
+          description: Movie not found
+      security:
+        - bearer: []
+      tags:
+        - Movies
+  /movies/{id}/favs:
+    post:
+      operationId: MoviesController_addTrackToFavorites
+      summary: Add Movie to favorites
+      description: Add Movie to favorites
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '201':
+          description: ''
+        '204':
+          description: The Movie has been added to favorites
+        '401':
+          description: Unauthorized
+        '404':
+          description: Movie not found
+      security:
+        - bearer: []
+      tags:
+        - Movies
+        - Favorites
+    delete:
+      operationId: MoviesController_removeTrackFromFavorites
+      summary: Remove Movie from favorites
+      description: Remove Movie from favorites
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '204':
+          description: The Movie has been removed from favorites
+        '401':
+          description: Unauthorized
+        '404':
+          description: Movie not found
+      security:
+        - bearer: []
+      tags:
+        - Movies
+        - Favorites
 info:
   title: Home Library Service
   description: Home video, music and book library service
@@ -606,10 +776,7 @@ components:
         tracks:
           type: array
           items:
-            required: true
-            type: array
-            items:
-              $ref: '#/components/schemas/Track'
+            $ref: '#/components/schemas/Track'
         version:
           type: number
       required:
@@ -642,6 +809,40 @@ components:
     UpdateTrackDto:
       type: object
       properties: {}
+    Movie:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        year:
+          type: number
+        duration:
+          type: number
+        genre:
+          type: string
+          enum:
+            - Action
+            - Crime
+            - Fantasy
+            - Horror
+            - Romance
+            - Science Fiction
+            - Comedy
+            - Sports
+            - Thriller
+            - War
+            - Western
+        version:
+          type: number
+      required:
+        - id
+        - name
+        - year
+        - duration
+        - genre
+        - version
     Favourites:
       type: object
       properties:
@@ -649,10 +850,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Track'
+        movies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Movie'
         version:
           type: number
       required:
         - tracks
+        - movies
         - version
     CreateAlbumDto:
       type: object
@@ -678,5 +884,28 @@ components:
         - year
         - trackIds
     UpdateAlbumDto:
+      type: object
+      properties: {}
+    CreateMovieDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 4
+          maxLength: 20
+        year:
+          type: number
+          minimum: 0
+        duration:
+          type: number
+          minimum: 0
+        genre:
+          type: object
+      required:
+        - name
+        - year
+        - duration
+        - genre
+    UpdateMovieDto:
       type: object
       properties: {}
