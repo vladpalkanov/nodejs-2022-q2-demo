@@ -266,9 +266,9 @@ paths:
         - Tracks
   /tracks/{id}/favs:
     post:
-      operationId: TracksController_addTrackToFavorites
-      summary: Add track to favorites
-      description: Add track to favorites
+      operationId: TracksController_addTrackToFavourites
+      summary: Add track to favourites
+      description: Add track to favourites
       parameters:
         - name: id
           required: true
@@ -279,7 +279,7 @@ paths:
         '201':
           description: ''
         '204':
-          description: The track has been added to favorites
+          description: The track has been added to favourites
         '401':
           description: Unauthorized
         '404':
@@ -288,11 +288,11 @@ paths:
         - bearer: []
       tags:
         - Tracks
-        - Favorites
+        - Favourites
     delete:
-      operationId: TracksController_removeTrackFromFavorites
-      summary: Remove track from favorites
-      description: Remove track from favorites
+      operationId: TracksController_removeTrackFromFavourites
+      summary: Remove track from favourites
+      description: Remove track from favourites
       parameters:
         - name: id
           required: true
@@ -303,7 +303,7 @@ paths:
         '200':
           description: ''
         '204':
-          description: The track has been removed from favorites
+          description: The track has been removed from favourites
         '401':
           description: Unauthorized
         '404':
@@ -312,18 +312,26 @@ paths:
         - bearer: []
       tags:
         - Tracks
-        - Favorites
+        - Favourites
   /favourites:
     get:
       operationId: FavouritesController_findAll
+      summary: ' Get all favourites'
+      description: 'Gets all favourites: tracks, books, movies'
       parameters: []
       responses:
         '200':
-          description: ''
+          description: Successful operation
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Favourites'
+        '401':
+          description: Unauthorized
+      security:
+        - bearer: []
+      tags:
+        - Favourites
   /albums:
     get:
       operationId: AlbumsController_findAll
@@ -607,9 +615,9 @@ paths:
         - Movies
   /movies/{id}/favs:
     post:
-      operationId: MoviesController_addTrackToFavorites
-      summary: Add Movie to favorites
-      description: Add Movie to favorites
+      operationId: MoviesController_addTrackToFavourites
+      summary: Add Movie to favourites
+      description: Add Movie to favourites
       parameters:
         - name: id
           required: true
@@ -620,7 +628,7 @@ paths:
         '201':
           description: ''
         '204':
-          description: The Movie has been added to favorites
+          description: The Movie has been added to favourites
         '401':
           description: Unauthorized
         '404':
@@ -629,11 +637,11 @@ paths:
         - bearer: []
       tags:
         - Movies
-        - Favorites
+        - Favourites
     delete:
-      operationId: MoviesController_removeTrackFromFavorites
-      summary: Remove Movie from favorites
-      description: Remove Movie from favorites
+      operationId: MoviesController_removeTrackFromFavourites
+      summary: Remove Movie from favourites
+      description: Remove Movie from favourites
       parameters:
         - name: id
           required: true
@@ -644,7 +652,7 @@ paths:
         '200':
           description: ''
         '204':
-          description: The Movie has been removed from favorites
+          description: The Movie has been removed from favourites
         '401':
           description: Unauthorized
         '404':
@@ -653,7 +661,177 @@ paths:
         - bearer: []
       tags:
         - Movies
-        - Favorites
+        - Favourites
+  /books:
+    get:
+      operationId: BooksController_findAll
+      summary: Get all Books
+      description: Gets all library Books list
+      parameters: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+        '401':
+          description: Unauthorized
+      security:
+        - bearer: []
+      tags:
+        - Books
+    post:
+      operationId: BooksController_create
+      summary: Add new Book
+      description: Add new Book to library
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookDto'
+      responses:
+        '201':
+          description: The Book has been created
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+      security:
+        - bearer: []
+      tags:
+        - Books
+  /books/{id}:
+    get:
+      operationId: BooksController_findOneById
+      summary: Get one Book by id
+      description: Find one library Book by its id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Book not found
+      security:
+        - bearer: []
+      tags:
+        - Books
+    put:
+      operationId: BooksController_update
+      summary: Update Book information
+      description: Update library Book information by UUID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBookDto'
+      responses:
+        '200':
+          description: The Book has been updated
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Book not found
+      security:
+        - bearer: []
+      tags:
+        - Books
+    delete:
+      operationId: BooksController_delete
+      summary: Delete Book
+      description: Deletes Book from library by ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '204':
+          description: The Book has been deleted
+        '401':
+          description: Unauthorized
+        '404':
+          description: Book not found
+      security:
+        - bearer: []
+      tags:
+        - Books
+  /books/{id}/favs:
+    post:
+      operationId: BooksController_addTrackToFavourites
+      summary: Add Book to favourites
+      description: Add Book to favourites
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '201':
+          description: ''
+        '204':
+          description: The Book has been added to favourites
+        '401':
+          description: Unauthorized
+        '404':
+          description: Book not found
+      security:
+        - bearer: []
+      tags:
+        - Books
+        - Favourites
+    delete:
+      operationId: BooksController_removeTrackFromFavourites
+      summary: Remove Book from favourites
+      description: Remove Book from favourites
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '204':
+          description: The Book has been removed from favourites
+        '401':
+          description: Unauthorized
+        '404':
+          description: Book not found
+      security:
+        - bearer: []
+      tags:
+        - Books
+        - Favourites
 info:
   title: Home Library Service
   description: Home video, music and book library service
@@ -843,6 +1021,37 @@ components:
         - duration
         - genre
         - version
+    Book:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        year:
+          type: number
+        author:
+          type: string
+        genre:
+          type: string
+          enum:
+            - Adventure
+            - Classics
+            - Comics
+            - Detective
+            - Mystery
+            - Fantasy
+            - Historical
+            - Horror
+            - Fiction
+        version:
+          type: number
+      required:
+        - id
+        - name
+        - year
+        - genre
+        - version
     Favourites:
       type: object
       properties:
@@ -854,11 +1063,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Movie'
+        books:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
         version:
           type: number
       required:
         - tracks
         - movies
+        - books
         - version
     CreateAlbumDto:
       type: object
@@ -907,5 +1121,29 @@ components:
         - duration
         - genre
     UpdateMovieDto:
+      type: object
+      properties: {}
+    CreateBookDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 4
+          maxLength: 20
+        year:
+          type: number
+          minimum: 0
+        author:
+          type: string
+          minLength: 4
+          maxLength: 20
+        genre:
+          type: object
+      required:
+        - name
+        - year
+        - author
+        - genre
+    UpdateBookDto:
       type: object
       properties: {}

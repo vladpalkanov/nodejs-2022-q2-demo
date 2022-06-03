@@ -25,8 +25,8 @@ import {
   FindAllTracksApi,
   UpdateTrackApi,
   FindOneTrackByIdApi,
-  AddTrackToFavoritesApi,
-  RemoveTrackFromFavoritesApi,
+  AddTrackToFavouritesApi,
+  RemoveTrackFromFavouritesApi,
 } from './tracks.swagger';
 
 @Controller('tracks')
@@ -104,8 +104,8 @@ export class TracksController {
 
   @Post('/:id/favs')
   @UseGuards(JwtAuthGuard)
-  @AddTrackToFavoritesApi()
-  async addTrackToFavorites(
+  @AddTrackToFavouritesApi()
+  async addTrackToFavourites(
     @Param('id') trackId: string,
     @WithUser('userId') userId: string,
   ): Promise<void> {
@@ -120,8 +120,8 @@ export class TracksController {
 
   @Delete('/:id/favs')
   @UseGuards(JwtAuthGuard)
-  @RemoveTrackFromFavoritesApi()
-  async removeTrackFromFavorites(
+  @RemoveTrackFromFavouritesApi()
+  async removeTrackFromFavourites(
     @Param('id') trackId: string,
     @WithUser('userId') userId: string,
   ): Promise<void> {

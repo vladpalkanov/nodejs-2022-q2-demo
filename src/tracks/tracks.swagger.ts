@@ -96,32 +96,32 @@ export function DeleteTrackApi() {
   );
 }
 
-export function AddTrackToFavoritesApi() {
+export function AddTrackToFavouritesApi() {
   return applyDecorators(
-    ApiTags('Tracks', 'Favorites'),
+    ApiTags('Tracks', 'Favourites'),
     ApiOperation({
-      summary: 'Add track to favorites',
-      description: 'Add track to favorites',
+      summary: 'Add track to favourites',
+      description: 'Add track to favourites',
     }),
     ApiBearerAuth(),
     ApiNoContentResponse({
-      description: 'The track has been added to favorites',
+      description: 'The track has been added to favourites',
     }),
     ApiNotFoundResponse({ description: 'Track not found' }),
     ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );
 }
 
-export function RemoveTrackFromFavoritesApi() {
+export function RemoveTrackFromFavouritesApi() {
   return applyDecorators(
-    ApiTags('Tracks', 'Favorites'),
+    ApiTags('Tracks', 'Favourites'),
     ApiOperation({
-      summary: 'Remove track from favorites',
-      description: 'Remove track from favorites',
+      summary: 'Remove track from favourites',
+      description: 'Remove track from favourites',
     }),
     ApiBearerAuth(),
     ApiNoContentResponse({
-      description: 'The track has been removed from favorites',
+      description: 'The track has been removed from favourites',
     }),
     ApiNotFoundResponse({ description: 'Track not found' }),
     ApiUnauthorizedResponse({ description: 'Unauthorized' }),

@@ -1,5 +1,6 @@
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
+import { Book } from 'src/books/entities/book.entity';
 import { Movie } from 'src/movies/entities/movie.entity';
 import { Track } from 'src/tracks/entities/track.entity';
 import {
@@ -36,6 +37,11 @@ export class Favourites {
   @JoinTable()
   @ApiProperty()
   movies: Array<Movie>;
+
+  @ManyToMany(() => Book)
+  @JoinTable()
+  @ApiProperty()
+  books: Array<Book>;
 
   @VersionColumn()
   @ApiProperty()

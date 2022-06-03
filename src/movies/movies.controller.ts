@@ -24,8 +24,8 @@ import {
   CreateMovieApi,
   UpdateMovieApi,
   DeleteMovieApi,
-  AddMovieToFavoritesApi,
-  RemoveMovieFromFavoritesApi,
+  AddMovieToFavouritesApi,
+  RemoveMovieFromFavouritesApi,
 } from './movies.swagger';
 
 @Controller('movies')
@@ -97,8 +97,8 @@ export class MoviesController {
 
   @Post('/:id/favs')
   @UseGuards(JwtAuthGuard)
-  @AddMovieToFavoritesApi()
-  async addTrackToFavorites(
+  @AddMovieToFavouritesApi()
+  async addTrackToFavourites(
     @Param('id') movieId: string,
     @WithUser('userId') userId: string,
   ): Promise<void> {
@@ -113,8 +113,8 @@ export class MoviesController {
 
   @Delete('/:id/favs')
   @UseGuards(JwtAuthGuard)
-  @RemoveMovieFromFavoritesApi()
-  async removeTrackFromFavorites(
+  @RemoveMovieFromFavouritesApi()
+  async removeTrackFromFavourites(
     @Param('id') movieId: string,
     @WithUser('userId') userId: string,
   ): Promise<void> {

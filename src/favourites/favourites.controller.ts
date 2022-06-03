@@ -9,6 +9,7 @@ import { WithUser } from 'src/auth/decorators/with-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Favourites } from './entities/favourites.entity';
 import { FavouritesService } from './favourites.service';
+import { FindAllBooksApi } from './favourites.swagger';
 
 @Controller('favourites')
 export class FavouritesController {
@@ -17,6 +18,7 @@ export class FavouritesController {
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(JwtAuthGuard)
+  @FindAllBooksApi()
   async findAll(@WithUser('userId') userId: string): Promise<Favourites> {
     return this.favouritesService.findByUserId(userId);
   }

@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Book } from 'src/books/entities/book.entity';
 import { Movie } from 'src/movies/entities/movie.entity';
 import { Track } from 'src/tracks/entities/track.entity';
 import { Repository } from 'typeorm';
 import { Favourites } from './entities/favourites.entity';
 
-type Relation = 'tracks' | 'movies';
+type Relation = 'tracks' | 'movies' | 'books';
 @Injectable()
 export class FavouritesService {
   constructor(
@@ -19,7 +20,7 @@ export class FavouritesService {
   ): Promise<Favourites> {
     return this.favouriteRepository.findOne({
       where: { userId },
-      relations: relations ?? ['tracks', 'movies'],
+      relations: relations ?? ['tracks', 'movies', 'books'],
     });
   }
 
@@ -37,6 +38,14 @@ export class FavouritesService {
 
   removeMovieToFavouritesForUser(track: Movie, userId: string): Promise<void> {
     return this.removeEntityFromFavouritesForUser('movies', track, userId);
+  }
+
+  addBookToFavouritesForUser(track: Book, userId: string): Promise<void> {
+    return this.addEntityToFavouritesForUser('books', track, userId);
+  }
+
+  removeBookToFavouritesForUser(track: Book, userId: string): Promise<void> {
+    return this.removeEntityFromFavouritesForUser('books', track, userId);
   }
 
   private async addEntityToFavouritesForUser(

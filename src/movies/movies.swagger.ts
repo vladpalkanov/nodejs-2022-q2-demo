@@ -96,32 +96,32 @@ export function DeleteMovieApi() {
   );
 }
 
-export function AddMovieToFavoritesApi() {
+export function AddMovieToFavouritesApi() {
   return applyDecorators(
-    ApiTags('Movies', 'Favorites'),
+    ApiTags('Movies', 'Favourites'),
     ApiOperation({
-      summary: 'Add Movie to favorites',
-      description: 'Add Movie to favorites',
+      summary: 'Add Movie to favourites',
+      description: 'Add Movie to favourites',
     }),
     ApiBearerAuth(),
     ApiNoContentResponse({
-      description: 'The Movie has been added to favorites',
+      description: 'The Movie has been added to favourites',
     }),
     ApiNotFoundResponse({ description: 'Movie not found' }),
     ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );
 }
 
-export function RemoveMovieFromFavoritesApi() {
+export function RemoveMovieFromFavouritesApi() {
   return applyDecorators(
-    ApiTags('Movies', 'Favorites'),
+    ApiTags('Movies', 'Favourites'),
     ApiOperation({
-      summary: 'Remove Movie from favorites',
-      description: 'Remove Movie from favorites',
+      summary: 'Remove Movie from favourites',
+      description: 'Remove Movie from favourites',
     }),
     ApiBearerAuth(),
     ApiNoContentResponse({
-      description: 'The Movie has been removed from favorites',
+      description: 'The Movie has been removed from favourites',
     }),
     ApiNotFoundResponse({ description: 'Movie not found' }),
     ApiUnauthorizedResponse({ description: 'Unauthorized' }),
