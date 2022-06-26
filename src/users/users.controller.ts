@@ -54,7 +54,7 @@ export class UsersController {
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @CreateUserApi()
   async create(@Body() createUserDto: CreateUserDto): Promise<void> {
     const user = User.fromObject(createUserDto);

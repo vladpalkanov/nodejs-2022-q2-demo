@@ -79,7 +79,7 @@ export class AlbumsController {
     const album = await this.albumsService.findOneById(albumId);
 
     if (!album) {
-      throw new NotFoundException('Track not found');
+      throw new NotFoundException('Album not found');
     }
 
     Object.assign(album, updateAlbumDto);
@@ -98,7 +98,7 @@ export class AlbumsController {
     const wasAlbumDeleted = await this.albumsService.delete(albumId);
 
     if (!wasAlbumDeleted) {
-      throw new NotFoundException('Track not found');
+      throw new NotFoundException('Album not found');
     }
   }
 
