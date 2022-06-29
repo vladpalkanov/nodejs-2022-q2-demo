@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Album } from 'src/albums/entities/album.entity';
 import { Repository } from 'typeorm';
 import { Artist } from './entities/artist.entity';
 
