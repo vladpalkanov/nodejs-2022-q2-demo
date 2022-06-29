@@ -11,9 +11,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { WithUser } from 'src/auth/decorators/with-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { FavouritesService } from 'src/favourites/favourites.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
@@ -24,16 +22,11 @@ import {
   CreateBookApi,
   UpdateBookApi,
   DeleteBookApi,
-  AddBookToFavouritesApi,
-  RemoveBookFromFavouritesApi,
 } from './books.swagger';
 
-@Controller('books')
+@Controller('book')
 export class BooksController {
-  constructor(
-    private readonly bookService: BookService,
-    private readonly favouritesService: FavouritesService,
-  ) {}
+  constructor(private readonly bookService: BookService) {}
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -93,37 +86,5 @@ export class BooksController {
     if (!wasBookDeleted) {
       throw new NotFoundException('Book not found');
     }
-  }
-
-  @Post('/:id/favs')
-  @UseGuards(JwtAuthGuard)
-  @AddBookToFavouritesApi()
-  async addTrackToFavourites(
-    @Param('id') bookId: string,
-    @WithUser('userId') userId: string,
-  ): Promise<void> {
-    const book = await this.bookService.findOneById(bookId);
-
-    if (!book) {
-      throw new NotFoundException('Track not found');
-    }
-
-    await this.favouritesService.addBookToFavouritesForUser(book, userId);
-  }
-
-  @Delete('/:id/favs')
-  @UseGuards(JwtAuthGuard)
-  @RemoveBookFromFavouritesApi()
-  async removeTrackFromFavourites(
-    @Param('id') bookId: string,
-    @WithUser('userId') userId: string,
-  ): Promise<void> {
-    const book = await this.bookService.findOneById(bookId);
-
-    if (!book) {
-      throw new NotFoundException('Book not found');
-    }
-
-    await this.favouritesService.removeBookToFavouritesForUser(book, userId);
   }
 }

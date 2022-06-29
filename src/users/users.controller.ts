@@ -27,7 +27,7 @@ import {
 import { isPasswordsEqual } from 'src/helpers/is-passwords-equal';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
-@Controller('users')
+@Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

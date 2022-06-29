@@ -6,7 +6,7 @@ import { ConfigModule } from './config/config.module';
 import { LoggerModule } from './logger/logger.module';
 import { TracksModule } from './tracks/tracks.module';
 import { AlbumsModule } from './albums/albums.module';
-import { FavouritesModule } from './favourites/favourites.module';
+import { FavsModule } from './favs/favs.module';
 import { MoviesModule } from './movies/movies.module';
 import { BooksModule } from './books/books.module';
 import { ArtistsModule } from './artists/artists.module';
@@ -21,7 +21,7 @@ import { ArtistsModule } from './artists/artists.module';
     LoggerModule,
     TracksModule,
     AlbumsModule,
-    FavouritesModule,
+    FavsModule,
     MoviesModule,
     BooksModule,
     ArtistsModule,

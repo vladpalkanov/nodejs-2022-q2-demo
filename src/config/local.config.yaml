@@ -1,22 +1,22 @@
 server:
-  port: 3000
+  port: 4000
 
 database:
   sqlite:
-    database: 'db.sqlite'
+    database: "db.sqlite"
 
 jwt:
-  secret: 'secret123123'
+  secret: "secret123123"
   expiresIn: 3600
 
 logger:
-  level: 'trace'
+  level: "trace"
   transport:
-    target: 'pino-pretty'
+    target: "pino-pretty"
     options:
       colorize: true
       singleLine: false
-      messageFormat: '{msg} {req.method} {req.url} {res.statusCode}'
-      ignore: 'context,pid,hostname,req.id,res,responseTime,req.headers,req.remoteAddress,req.remotePort,req.method,req.url,'
+      messageFormat: "{msg} {req.method} {req.url} {res.statusCode}"
+      ignore: "context,pid,hostname,req.id,res,responseTime,req.headers,req.remoteAddress,req.remotePort,req.method,req.url,"
       translateTime: true
       levelFirst: true

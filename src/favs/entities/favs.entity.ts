@@ -15,9 +15,9 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Favourites {
-  static fromObject(object: Partial<Favourites>): Favourites {
-    return plainToInstance<Favourites, Partial<Favourites>>(Favourites, object);
+export class Favs {
+  static fromObject(object: Partial<Favs>): Favs {
+    return plainToInstance<Favs, Partial<Favs>>(Favs, object);
   }
 
   @PrimaryGeneratedColumn('uuid')

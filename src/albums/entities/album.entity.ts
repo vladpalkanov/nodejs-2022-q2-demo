@@ -1,10 +1,12 @@
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { Exclude, plainToInstance } from 'class-transformer';
+import { Artist } from 'src/artists/entities/artist.entity';
 import { Track } from 'src/tracks/entities/track.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -25,9 +27,9 @@ export class Album {
   @ApiProperty()
   name: string;
 
-  @Column()
-  @ApiProperty()
-  singer: string;
+  @ManyToOne<Artist>(() => Artist, (artist) => artist.tracks)
+  @ApiProperty({ type: Artist })
+  artist: Artist;
 
   @OneToMany<Track>(() => Track, (track) => track.album)
   @ApiProperty({

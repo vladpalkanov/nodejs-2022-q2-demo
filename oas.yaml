@@ -1,6 +1,6 @@
 openapi: 3.0.0
 paths:
-  /users:
+  /user:
     get:
       operationId: UsersController_findAll
       summary: Get all users
@@ -67,7 +67,7 @@ paths:
         - bearer: []
       tags:
         - Users
-  /users/{id}:
+  /user/{id}:
     get:
       operationId: UsersController_findOneById
       summary: Get one User by id
@@ -143,7 +143,7 @@ paths:
           description: Incorrect login or password
       tags:
         - Login
-  /tracks:
+  /track:
     get:
       operationId: TracksController_findAll
       summary: Get all tracks
@@ -186,7 +186,7 @@ paths:
         - bearer: []
       tags:
         - Tracks
-  /tracks/{id}:
+  /track/{id}:
     get:
       operationId: TracksController_findOneById
       summary: Get one Track by id
@@ -264,75 +264,7 @@ paths:
         - bearer: []
       tags:
         - Tracks
-  /tracks/{id}/favs:
-    post:
-      operationId: TracksController_addTrackToFavourites
-      summary: Add track to favourites
-      description: Add track to favourites
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        '201':
-          description: ''
-        '204':
-          description: The track has been added to favourites
-        '401':
-          description: Unauthorized
-        '404':
-          description: Track not found
-      security:
-        - bearer: []
-      tags:
-        - Tracks
-        - Favourites
-    delete:
-      operationId: TracksController_removeTrackFromFavourites
-      summary: Remove track from favourites
-      description: Remove track from favourites
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ''
-        '204':
-          description: The track has been removed from favourites
-        '401':
-          description: Unauthorized
-        '404':
-          description: Track not found
-      security:
-        - bearer: []
-      tags:
-        - Tracks
-        - Favourites
-  /favourites:
-    get:
-      operationId: FavouritesController_findAll
-      summary: ' Get all favourites'
-      description: 'Gets all favourites: tracks, books, movies'
-      parameters: []
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Favourites'
-        '401':
-          description: Unauthorized
-      security:
-        - bearer: []
-      tags:
-        - Favourites
-  /albums:
+  /album:
     get:
       operationId: AlbumsController_findAll
       summary: Get all albums
@@ -375,7 +307,7 @@ paths:
         - bearer: []
       tags:
         - Albums
-  /albums/{id}:
+  /album/{id}:
     get:
       operationId: AlbumsController_findOneById
       summary: Get one album by id
@@ -453,7 +385,7 @@ paths:
         - bearer: []
       tags:
         - Albums
-  /albums/{id}/tracks/{trackId}:
+  /album/{id}/tracks/{trackId}:
     post:
       operationId: AlbumsController_addTrackToAlbum
       summary: Add track to album
@@ -492,7 +424,215 @@ paths:
       tags:
         - Albums
         - Tracks
-  /movies:
+  /favs:
+    get:
+      operationId: FavsController_findAll
+      summary: ' Get all Favs'
+      description: 'Gets all Favs: tracks, books, movies'
+      parameters: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Favs'
+        '401':
+          description: Unauthorized
+      security:
+        - bearer: []
+      tags:
+        - Favs
+  /favs/movie/{id}:
+    post:
+      operationId: FavsController_addMovieToFavs
+      summary: Add Movie to Favs
+      description: Add Movie to Favs
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '201':
+          description: ''
+        '204':
+          description: The Movie has been added to Favs
+        '401':
+          description: Unauthorized
+        '404':
+          description: Movie not found
+      security:
+        - bearer: []
+      tags:
+        - Favs
+  /favs/track/{id}:
+    delete:
+      operationId: FavsController_removeTrackFromFavs
+      summary: Remove track from Favs
+      description: Remove track from Favs
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '204':
+          description: The track has been removed from Favs
+        '401':
+          description: Unauthorized
+        '404':
+          description: Track not found
+      security:
+        - bearer: []
+      tags:
+        - Favs
+    post:
+      operationId: FavsController_addTrackToFavs
+      summary: Add track to Favs
+      description: Add track to Favs
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '201':
+          description: ''
+        '204':
+          description: The track has been added to Favs
+        '401':
+          description: Unauthorized
+        '404':
+          description: Track not found
+      security:
+        - bearer: []
+      tags:
+        - Favs
+  /favs/book/{id}:
+    post:
+      operationId: FavsController_addBookToFavs
+      summary: Add Book to Favs
+      description: Add Book to Favs
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '201':
+          description: ''
+        '204':
+          description: The Book has been added to Favs
+        '401':
+          description: Unauthorized
+        '404':
+          description: Book not found
+      security:
+        - bearer: []
+      tags:
+        - Favs
+    delete:
+      operationId: FavsController_removeBookFromFavs
+      summary: Remove Book from Favs
+      description: Remove Book from Favs
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '204':
+          description: The Book has been removed from Favs
+        '401':
+          description: Unauthorized
+        '404':
+          description: Book not found
+      security:
+        - bearer: []
+      tags:
+        - Favs
+  /favs/album/{id}:
+    post:
+      operationId: FavsController_addArtistToFavs
+      summary: Add Artist to Favs
+      description: Add Artist to Favs
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '201':
+          description: ''
+        '204':
+          description: The Artist has been added to Favs
+        '401':
+          description: Unauthorized
+        '404':
+          description: Artist not found
+      security:
+        - bearer: []
+      tags:
+        - Favs
+    delete:
+      operationId: FavsController_removeAlbumFromFavs
+      summary: Remove Album from Favs
+      description: Remove Album from Favs
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '204':
+          description: The Album has been removed from Favs
+        '401':
+          description: Unauthorized
+        '404':
+          description: Album not found
+      security:
+        - bearer: []
+      tags:
+        - Favs
+  /favs/artist/{id}:
+    delete:
+      operationId: FavsController_removeArtistFromFavs
+      summary: Remove Artist from Favs
+      description: Remove Artist from Favs
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+        '204':
+          description: The Artist has been removed from Favs
+        '401':
+          description: Unauthorized
+        '404':
+          description: Artist not found
+      security:
+        - bearer: []
+      tags:
+        - Favs
+  /movie:
     get:
       operationId: MoviesController_findAll
       summary: Get all movies
@@ -535,7 +675,7 @@ paths:
         - bearer: []
       tags:
         - Movies
-  /movies/{id}:
+  /movie/{id}:
     get:
       operationId: MoviesController_findOneById
       summary: Get one Movie by id
@@ -613,56 +753,7 @@ paths:
         - bearer: []
       tags:
         - Movies
-  /movies/{id}/favs:
-    post:
-      operationId: MoviesController_addTrackToFavourites
-      summary: Add Movie to favourites
-      description: Add Movie to favourites
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        '201':
-          description: ''
-        '204':
-          description: The Movie has been added to favourites
-        '401':
-          description: Unauthorized
-        '404':
-          description: Movie not found
-      security:
-        - bearer: []
-      tags:
-        - Movies
-        - Favourites
-    delete:
-      operationId: MoviesController_removeTrackFromFavourites
-      summary: Remove Movie from favourites
-      description: Remove Movie from favourites
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ''
-        '204':
-          description: The Movie has been removed from favourites
-        '401':
-          description: Unauthorized
-        '404':
-          description: Movie not found
-      security:
-        - bearer: []
-      tags:
-        - Movies
-        - Favourites
-  /books:
+  /book:
     get:
       operationId: BooksController_findAll
       summary: Get all Books
@@ -705,7 +796,7 @@ paths:
         - bearer: []
       tags:
         - Books
-  /books/{id}:
+  /book/{id}:
     get:
       operationId: BooksController_findOneById
       summary: Get one Book by id
@@ -783,56 +874,7 @@ paths:
         - bearer: []
       tags:
         - Books
-  /books/{id}/favs:
-    post:
-      operationId: BooksController_addTrackToFavourites
-      summary: Add Book to favourites
-      description: Add Book to favourites
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        '201':
-          description: ''
-        '204':
-          description: The Book has been added to favourites
-        '401':
-          description: Unauthorized
-        '404':
-          description: Book not found
-      security:
-        - bearer: []
-      tags:
-        - Books
-        - Favourites
-    delete:
-      operationId: BooksController_removeTrackFromFavourites
-      summary: Remove Book from favourites
-      description: Remove Book from favourites
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ''
-        '204':
-          description: The Book has been removed from favourites
-        '401':
-          description: Unauthorized
-        '404':
-          description: Book not found
-      security:
-        - bearer: []
-      tags:
-        - Books
-        - Favourites
-  /artists:
+  /artist:
     get:
       operationId: ArtistsController_findAll
       summary: Get all Artists
@@ -875,7 +917,7 @@ paths:
         - bearer: []
       tags:
         - Artists
-  /artists/{id}:
+  /artist/{id}:
     get:
       operationId: ArtistsController_findOneById
       summary: Get one Artist by id
@@ -1048,8 +1090,8 @@ components:
           type: string
         name:
           type: string
-        singer:
-          type: string
+        artist:
+          $ref: '#/components/schemas/Artist'
         album:
           $ref: '#/components/schemas/Album'
         duration:
@@ -1059,7 +1101,7 @@ components:
       required:
         - id
         - name
-        - singer
+        - artist
         - album
         - duration
         - version
@@ -1070,8 +1112,8 @@ components:
           type: string
         name:
           type: string
-        singer:
-          type: string
+        artist:
+          $ref: '#/components/schemas/Artist'
         tracks:
           type: array
           items:
@@ -1081,7 +1123,36 @@ components:
       required:
         - id
         - name
-        - singer
+        - artist
+        - tracks
+        - version
+    Artist:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        grammy:
+          type: boolean
+        albums:
+          type: array
+          items:
+            required: true
+            type: array
+            items:
+              $ref: '#/components/schemas/Album'
+        tracks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Track'
+        version:
+          type: number
+      required:
+        - id
+        - name
+        - grammy
+        - albums
         - tracks
         - version
     CreateTrackDto:
@@ -1091,21 +1162,43 @@ components:
           type: string
           minLength: 4
           maxLength: 20
-        singer:
-          type: string
-          minLength: 4
-          maxLength: 20
         duration:
           type: number
           minimum: 0
+        artistId:
+          type: string
         albumId:
           type: string
       required:
         - name
-        - singer
         - duration
+        - artistId
         - albumId
     UpdateTrackDto:
+      type: object
+      properties: {}
+    CreateAlbumDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 4
+          maxLength: 20
+        year:
+          type: number
+          minimum: 0
+        artistId:
+          type: string
+        trackIds:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - year
+        - artistId
+        - trackIds
+    UpdateAlbumDto:
       type: object
       properties: {}
     Movie:
@@ -1173,7 +1266,7 @@ components:
         - year
         - genre
         - version
-    Favourites:
+    Favs:
       type: object
       properties:
         tracks:
@@ -1195,32 +1288,6 @@ components:
         - movies
         - books
         - version
-    CreateAlbumDto:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 4
-          maxLength: 20
-        singer:
-          type: string
-          minLength: 4
-          maxLength: 20
-        year:
-          type: number
-          minimum: 0
-        trackIds:
-          type: array
-          items:
-            type: string
-      required:
-        - name
-        - singer
-        - year
-        - trackIds
-    UpdateAlbumDto:
-      type: object
-      properties: {}
     CreateMovieDto:
       type: object
       properties:
@@ -1268,22 +1335,6 @@ components:
     UpdateBookDto:
       type: object
       properties: {}
-    Artist:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        grammy:
-          type: boolean
-        version:
-          type: number
-      required:
-        - id
-        - name
-        - grammy
-        - version
     CreateArtistDto:
       type: object
       properties:

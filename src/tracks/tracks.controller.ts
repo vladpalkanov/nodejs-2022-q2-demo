@@ -11,10 +11,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { Album } from 'src/albums/entities/album.entity';
-import { WithUser } from 'src/auth/decorators/with-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { FavouritesService } from 'src/favourites/favourites.service';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { Track } from './entities/track.entity';
@@ -25,16 +22,11 @@ import {
   FindAllTracksApi,
   UpdateTrackApi,
   FindOneTrackByIdApi,
-  AddTrackToFavouritesApi,
-  RemoveTrackFromFavouritesApi,
 } from './tracks.swagger';
 
-@Controller('tracks')
+@Controller('track')
 export class TracksController {
-  constructor(
-    private readonly tracksService: TracksService,
-    private readonly favouritesService: FavouritesService,
-  ) {}
+  constructor(private readonly tracksService: TracksService) {}
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -64,7 +56,9 @@ export class TracksController {
   async create(@Body() createTrackDto: CreateTrackDto): Promise<void> {
     const track = Track.fromObject(createTrackDto);
 
-    track.album = Album.fromObject({ id: createTrackDto.albumId });
+    this.tracksService.setAlbumToTrack(track, createTrackDto.albumId);
+
+    this.tracksService.setArtistToTrack(track, createTrackDto.artistId);
 
     this.tracksService.save(track);
   }
@@ -85,7 +79,11 @@ export class TracksController {
     Object.assign(track, updateTrackDto);
 
     if (updateTrackDto.albumId) {
-      this.tracksService.setAlbumForTrack(track, updateTrackDto.albumId);
+      this.tracksService.setAlbumToTrack(track, updateTrackDto.albumId);
+    }
+
+    if (updateTrackDto.artistId) {
+      this.tracksService.setArtistToTrack(track, updateTrackDto.artistId);
     }
 
     this.tracksService.save(track);
@@ -100,37 +98,5 @@ export class TracksController {
     if (!wasTrackDeleted) {
       throw new NotFoundException('Track not found');
     }
-  }
-
-  @Post('/:id/favs')
-  @UseGuards(JwtAuthGuard)
-  @AddTrackToFavouritesApi()
-  async addTrackToFavourites(
-    @Param('id') trackId: string,
-    @WithUser('userId') userId: string,
-  ): Promise<void> {
-    const track = await this.tracksService.findOneById(trackId);
-
-    if (!track) {
-      throw new NotFoundException('Track not found');
-    }
-
-    await this.favouritesService.addTrackToFavouritesForUser(track, userId);
-  }
-
-  @Delete('/:id/favs')
-  @UseGuards(JwtAuthGuard)
-  @RemoveTrackFromFavouritesApi()
-  async removeTrackFromFavourites(
-    @Param('id') trackId: string,
-    @WithUser('userId') userId: string,
-  ): Promise<void> {
-    const track = await this.tracksService.findOneById(trackId);
-
-    if (!track) {
-      throw new NotFoundException('Track not found');
-    }
-
-    await this.favouritesService.removeTrackToFavouritesForUser(track, userId);
   }
 }

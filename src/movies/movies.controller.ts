@@ -11,9 +11,8 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { WithUser } from 'src/auth/decorators/with-user.decorator';
+
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { FavouritesService } from 'src/favourites/favourites.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Movie } from './entities/movie.entity';
@@ -24,16 +23,11 @@ import {
   CreateMovieApi,
   UpdateMovieApi,
   DeleteMovieApi,
-  AddMovieToFavouritesApi,
-  RemoveMovieFromFavouritesApi,
 } from './movies.swagger';
 
-@Controller('movies')
+@Controller('movie')
 export class MoviesController {
-  constructor(
-    private readonly moviesService: MoviesService,
-    private readonly favouritesService: FavouritesService,
-  ) {}
+  constructor(private readonly moviesService: MoviesService) {}
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -93,37 +87,5 @@ export class MoviesController {
     if (!wasMovieDeleted) {
       throw new NotFoundException('Movie not found');
     }
-  }
-
-  @Post('/:id/favs')
-  @UseGuards(JwtAuthGuard)
-  @AddMovieToFavouritesApi()
-  async addTrackToFavourites(
-    @Param('id') movieId: string,
-    @WithUser('userId') userId: string,
-  ): Promise<void> {
-    const movie = await this.moviesService.findOneById(movieId);
-
-    if (!movie) {
-      throw new NotFoundException('Track not found');
-    }
-
-    await this.favouritesService.addMovieToFavouritesForUser(movie, userId);
-  }
-
-  @Delete('/:id/favs')
-  @UseGuards(JwtAuthGuard)
-  @RemoveMovieFromFavouritesApi()
-  async removeTrackFromFavourites(
-    @Param('id') movieId: string,
-    @WithUser('userId') userId: string,
-  ): Promise<void> {
-    const movie = await this.moviesService.findOneById(movieId);
-
-    if (!movie) {
-      throw new NotFoundException('Movie not found');
-    }
-
-    await this.favouritesService.removeMovieToFavouritesForUser(movie, userId);
   }
 }

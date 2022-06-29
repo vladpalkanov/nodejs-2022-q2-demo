@@ -12,7 +12,7 @@ export class ArtistsService {
   ) {}
 
   findAll(): Promise<Array<Artist>> {
-    return this.artistRepository.find({ relations: ['album'] });
+    return this.artistRepository.find({ relations: ['tracks'] });
   }
 
   findOneById(id: string): Promise<Artist> {

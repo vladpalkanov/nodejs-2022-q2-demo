@@ -95,35 +95,3 @@ export function DeleteTrackApi() {
     ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );
 }
-
-export function AddTrackToFavouritesApi() {
-  return applyDecorators(
-    ApiTags('Tracks', 'Favourites'),
-    ApiOperation({
-      summary: 'Add track to favourites',
-      description: 'Add track to favourites',
-    }),
-    ApiBearerAuth(),
-    ApiNoContentResponse({
-      description: 'The track has been added to favourites',
-    }),
-    ApiNotFoundResponse({ description: 'Track not found' }),
-    ApiUnauthorizedResponse({ description: 'Unauthorized' }),
-  );
-}
-
-export function RemoveTrackFromFavouritesApi() {
-  return applyDecorators(
-    ApiTags('Tracks', 'Favourites'),
-    ApiOperation({
-      summary: 'Remove track from favourites',
-      description: 'Remove track from favourites',
-    }),
-    ApiBearerAuth(),
-    ApiNoContentResponse({
-      description: 'The track has been removed from favourites',
-    }),
-    ApiNotFoundResponse({ description: 'Track not found' }),
-    ApiUnauthorizedResponse({ description: 'Unauthorized' }),
-  );
-}

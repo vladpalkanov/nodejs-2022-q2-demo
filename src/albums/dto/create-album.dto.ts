@@ -18,16 +18,15 @@ export class CreateAlbumDto {
   readonly name: string;
 
   @ApiProperty()
-  @IsString()
-  @MinLength(4)
-  @MaxLength(20)
-  readonly singer: string;
-
-  @ApiProperty()
   @IsNumber({})
   @IsInt()
   @Min(0)
   readonly year: number;
+
+  @ApiProperty({ type: String })
+  @IsNotEmpty()
+  @IsString()
+  readonly artistId: string;
 
   @ApiProperty({ type: String, isArray: true })
   @IsArray()

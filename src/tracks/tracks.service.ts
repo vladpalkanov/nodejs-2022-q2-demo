@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Album } from 'src/albums/entities/album.entity';
+import { Artist } from 'src/artists/entities/artist.entity';
 import { Repository } from 'typeorm';
 import { Track } from './entities/track.entity';
 
@@ -12,7 +13,7 @@ export class TracksService {
   ) {}
 
   findAll(): Promise<Array<Track>> {
-    return this.trackRepository.find({ relations: ['album'] });
+    return this.trackRepository.find({ relations: ['album', 'artist'] });
   }
 
   findOneById(id: string): Promise<Track> {
@@ -33,7 +34,11 @@ export class TracksService {
     return result.affected > 0;
   }
 
-  setAlbumForTrack(track: Track, albumId: string): void {
+  setAlbumToTrack(track: Track, albumId: string): void {
     track.album = Album.fromObject({ id: albumId });
+  }
+
+  setArtistToTrack(track: Track, artistId: string): void {
+    track.artist = Artist.fromObject({ id: artistId });
   }
 }

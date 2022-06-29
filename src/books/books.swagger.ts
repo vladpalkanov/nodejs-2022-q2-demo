@@ -95,35 +95,3 @@ export function DeleteBookApi() {
     ApiUnauthorizedResponse({ description: 'Unauthorized' }),
   );
 }
-
-export function AddBookToFavouritesApi() {
-  return applyDecorators(
-    ApiTags('Books', 'Favourites'),
-    ApiOperation({
-      summary: 'Add Book to favourites',
-      description: 'Add Book to favourites',
-    }),
-    ApiBearerAuth(),
-    ApiNoContentResponse({
-      description: 'The Book has been added to favourites',
-    }),
-    ApiNotFoundResponse({ description: 'Book not found' }),
-    ApiUnauthorizedResponse({ description: 'Unauthorized' }),
-  );
-}
-
-export function RemoveBookFromFavouritesApi() {
-  return applyDecorators(
-    ApiTags('Books', 'Favourites'),
-    ApiOperation({
-      summary: 'Remove Book from favourites',
-      description: 'Remove Book from favourites',
-    }),
-    ApiBearerAuth(),
-    ApiNoContentResponse({
-      description: 'The Book has been removed from favourites',
-    }),
-    ApiNotFoundResponse({ description: 'Book not found' }),
-    ApiUnauthorizedResponse({ description: 'Unauthorized' }),
-  );
-}

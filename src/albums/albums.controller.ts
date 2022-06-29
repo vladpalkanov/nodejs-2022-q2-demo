@@ -27,7 +27,7 @@ import {
 import { AlbumsService } from './albums.service';
 import { TracksService } from 'src/tracks/tracks.service';
 
-@Controller('albums')
+@Controller('album')
 export class AlbumsController {
   constructor(
     private readonly albumsService: AlbumsService,
@@ -66,6 +66,10 @@ export class AlbumsController {
       this.albumsService.setTracksToAlbum(album, createAlbumDto.trackIds);
     }
 
+    if (createAlbumDto.artistId) {
+      this.albumsService.setArtistToAlbum(album, createAlbumDto.artistId);
+    }
+
     this.albumsService.save(album);
   }
 
@@ -86,6 +90,10 @@ export class AlbumsController {
 
     if (updateAlbumDto.trackIds) {
       this.albumsService.setTracksToAlbum(album, updateAlbumDto.trackIds);
+    }
+
+    if (updateAlbumDto.artistId) {
+      this.albumsService.setArtistToAlbum(album, updateAlbumDto.artistId);
     }
 
     this.albumsService.save(album);
