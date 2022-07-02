@@ -6,8 +6,12 @@ database:
     database: "db.sqlite"
 
 jwt:
-  secret: "secret123123"
-  expiresIn: 3600
+  accessToken:
+    secret: "secret123123"
+    expiresIn: 3600
+  refreshToken:
+    secret: "secret312321"
+    expiresIn: 4800
 
 logger:
   level: "trace"

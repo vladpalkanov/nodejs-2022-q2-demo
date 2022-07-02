@@ -118,7 +118,7 @@ paths:
     post:
       operationId: AuthController_login
       summary: Login
-      description: Logins a user and returns a JWT-token
+      description: Logins a user and returns a JWT-tokens (access and refresh)
       parameters: []
       requestBody:
         required: true
@@ -132,17 +132,46 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AuthTokenResponse'
+                $ref: '#/components/schemas/AuthResponse'
         '201':
           description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AuthTokenResponse'
+                $ref: '#/components/schemas/AuthResponse'
         '403':
           description: Incorrect login or password
       tags:
-        - Login
+        - Auth
+  /refresh-tokens:
+    post:
+      operationId: AuthController_refreshTokens
+      summary: Refresh tokens
+      description: Refresh access token with refresh token
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenDto'
+      responses:
+        '200':
+          description: Tokens refreshed sucessfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '422':
+          description: token expired of malformed
+      tags:
+        - Auth
   /track:
     get:
       operationId: TracksController_findAll
@@ -1076,13 +1105,24 @@ components:
       required:
         - username
         - password
-    AuthTokenResponse:
+    AuthResponse:
       type: object
       properties:
-        token:
+        accessToken:
+          type: string
+        refreshToken:
           type: string
       required:
-        - token
+        - accessToken
+        - refreshToken
+    RefreshTokenDto:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+          description: Refresh Token
+      required:
+        - refreshToken
     Track:
       type: object
       properties:
